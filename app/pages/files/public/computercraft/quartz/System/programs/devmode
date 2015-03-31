@@ -1,0 +1,15 @@
+if not _G.quartz.admin then
+	error("Admin required")
+end
+
+if fs.exists("System/devmode") then
+	print("Devmode disabled")
+	fs.delete("System/devmode")
+	sleep(1)
+	os.reboot()
+else
+	print("Devmode enabled")
+	fs.makeDir("System/devmode")
+	sleep(1)
+	os.reboot()
+end

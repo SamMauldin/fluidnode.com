@@ -1,0 +1,83 @@
+==================================================================
+https://keybase.io/samm
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://fluidnode.com
+  * I am samm (https://keybase.io/samm) on keybase.
+  * I have a public key with fingerprint 110A 641D E0FF F013 0C5D  79C9 83B4 C75B 19F2 900E
+
+To claim this, I am signing this object:
+
+{
+    "body": {
+        "client": {
+            "name": "keybase.io node.js client",
+            "version": "0.7.3"
+        },
+        "key": {
+            "fingerprint": "110a641de0fff0130c5d79c983b4c75b19f2900e",
+            "host": "keybase.io",
+            "key_id": "83B4C75B19F2900E",
+            "uid": "aa28534473dcd8b6c87523c84aa1a600",
+            "username": "samm"
+        },
+        "merkle_root": {
+            "ctime": 1418592216,
+            "hash": "c09466e9558c7f26eab3689591da73a4d1deb08922637850656134da79d408af128f9d4f6c199601b9c2c45240e6f80f2c683db9044f6779d44db142b1cc0f6c",
+            "seqno": 109093
+        },
+        "service": {
+            "hostname": "fluidnode.com",
+            "protocol": "https:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1418592291,
+    "expire_in": 157680000,
+    "prev": "690871e926e43ba59d38df84305f326705ac7d52dad1602a97f7360bbcfad0a2",
+    "seqno": 5,
+    "tag": "signature"
+}
+
+with the aforementioned key, yielding the PGP signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: GnuPG/MacGPG2 v2.0.22 (Darwin)
+Comment: GPGTools - https://gpgtools.org
+
+owFdUntQVFUcXl4iDIjA+AricZ2k0W09930vShMPt4lGJ3JtrKjtPs5lb7D3rrvr
+IgHRKA/NAXmZIMHI8MpQwCmfRc4oVgQCas4gEWFFykzCyENnnNLuZWh6nL/OOb/v
++873/X6nPNjHEOi17/Nv3lwzU77Mq2+SN1jKDGtzEV4Vc5D4XETIkqHi1ncKZ4dI
+PJIJc3jOBU2yGqOoIjS964pZxBgRD3S6ZFXRUMBEm3Ak36jDdbIkKxnQ6XDKuhaC
+ooCjCFSEQJIkgOJAIEWaFVgG5wmBJnmUlTAWAKhJ2lSX+z+vIguaVlnUbhk8iUim
+ySSUNev4LVpt90KB4zCGxAmCxkVBZHhKYGgSwwWG4DiUowDQgS7oXIzk4ux23asd
+OjOzoNWpqguBBbesl1ECZUgWw1BKc8O5bBpBACxBUZAlSUagJYyCHI9TDEuyqMjR
+OEeIWjQeMBqJwmmGBBRJoTih1ViRAAwnoRgjaVuJElCWpQDKswImECRGAEhJDJAw
+gWJwkWcBoWFonUWIPEpgPCoIQGNp9l1wl6Jq5gALWDxfPzs9sgB133rLFpNJWVo/
+FsYkqHaN5XCqblVQs7SSze12uOL12O4ch47NhrzVBdsXZKy8rIjayP49U1SD/q8l
+LGpE4B6H7IRWWUeQNMUAbekPQY+mSbGAoVHIai0icJ4jWRFnRIkhcEBKOEbRgOQE
+WiQxkRNRCmAcS0s0TgGeFyROBBz2T1BS88ll6MOSMxTOvdsJkfwD3pG+Bq9AwxI/
+b/3TGgIDlv/9k5/bGPJ4U4DcPnvxp5BLwS2Fvz09/ilW41uxOc0npfaguWldSd3d
+sojX5Y6y8Qev/NxdEXm+eRXOCQFL5s0xhq31XrWxXXE1L15LDirc5ut7J6991+Dc
+hmyp+/LzI67o7IzrXXeOHov6aL76XOkXVTHFlQ+8wyYGVOLV1rjrU3WebXWFK9ev
+M218+9SF90ozS+71haefntob9P5Mv63pqjB/pNPP1P1oWKn7I/r7gvGRgGv22QRb
+xBgDsaMVZY4v/d+x7Ius9R977Bc0K1cOwBCH0poSPVPkSPdUX5I/3DKzNK0m/8rt
+lwMS0hKC3hq4MkpfjX2SGJR6Y7v/YH/BiZLqrhvrI3bCR3nhSmhg1zN4yFDzQ+Pl
+P5f5xgztmD7xi/ukoc/zOzH3xp5UIjd51uPojfL5DpgTEho6y23HW4eX3gwdnQ51
+3R/rMWUPNoSd/KRKTSnZlNT2bOikNWywbfsadcUAkTcar4Ts2P/xSodyxv/XFS3p
+U6RF6bkVN2dxnq2y1vVy9bc7bx570tdb39HTcjqxaW/V1unYVL6oYHV34iG/wzPD
+xgsWr7b7NQ+BMfyFsewzDS0dQ2EvHYl+CjmufjW2c/nFxrQf+1MO3v0MPffD16aR
+sxOrzzeEVkbd2l/cVdo8NTmBFHd8YN7cWMQfDo6fPoWNr7Icinut8d6Gb0vXhmcO
+4kUNRRlmEvkL
+=6zYa
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/samm
+
+==================================================================

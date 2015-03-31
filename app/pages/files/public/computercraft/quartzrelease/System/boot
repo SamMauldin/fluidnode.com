@@ -1,0 +1,138 @@
+local args = {...}
+local base = args[1]
+local oldPull = os.pullEvent
+os.pullEvent = os.pullEventRaw
+_G.quartz = {}
+_G.quartz.base = base
+
+if not _G._st then
+	print("Your Quartz installation does not support sandboxed loader upgrades.")
+	print("")
+	local path = base .. "startup"
+	fs.move(base .. "System/startup", base .. "startup")
+	os.reboot()
+end
+
+os.loadAPI(base .. "System/protect")
+os.loadAPI("System/sha")
+os.loadAPI("System/file")
+os.loadAPI("System/updater")
+
+_G.quartz.version = file.read("System/version")
+os.version = function()
+	return "Quartz OS " .. _G.quartz.version
+end
+
+if fs.exists("System/devmode") then
+	print("Developer mode activated!")
+	_G.quartz.devmode = true
+else
+	_G.quartz.devmode = false
+end
+
+updater.run()
+
+function sanitize(str)
+	str = string.gsub(str, "/", ":")
+	str = string.gsub(str, "%.", ":")
+	return str
+end
+
+function login()
+	print("Starting login...")
+	term.setTextColor(colors.black)
+	term.setBackgroundColor(colors.white)
+	term.clear()
+	term.setCursorPos(1, 1)
+	local admins = textutils.unserialize(file.read("System/admins"))
+	print(file.read("System/name") .. " : " .. file.read("System/version"))
+	print(string.rep("-", term.getSize()))
+	write("Username:")
+	local username = sanitize(read())
+	if fs.exists("Home/" .. username) then
+		write("Password:")
+		local password = sha.sha256(read("*"))
+		if file.read("Home/" .. username .. "/.passwd", nil) == password then
+			term.clear()
+			term.setCursorPos(1, 1)
+			local admin = false
+			for k, v in pairs(admins) do
+				if v == username then
+					admin = true
+				end
+			end
+			if admin then
+				protect.protect({"/"}, {"/"})
+				_G.quartz.admin = true
+			else
+				protect.protect({"Shared", "Home/" .. username, "tmp"}, {"/rom", "/Shared", "/Home/" .. username, "/System/programs", "/tmp"})
+				_G.quartz.admin = false
+			end
+			term.setBackgroundColor(colors.black)
+			term.setTextColor(colors.white)
+			term.clear()
+			term.setCursorPos(1, 1)
+			_G.quartz.user = username
+			shell.setDir("Home/" .. username)
+			shell.setPath(shell.path() .. ":/System/programs:/System/programs/pkg")
+			shell.setAlias("nano", "edit")
+			if admin then
+				print("Welcome, admin.")
+			end
+			os.pullEvent = oldPull
+			if _G.quartz.devmode then
+				print("Developer mode is enabled. To disable, run devmode. You may experience more bugs than usual when running on developer mode.")
+			end
+			shell.run("shell")
+		else
+			print("Wrong password. Please try again")
+			sleep(2)
+			os.reboot()
+		end
+	else
+		print("User not found. Please try again")
+		sleep(2)
+		os.reboot()
+	end
+end
+
+if not fs.exists("System/name") then
+	term.setTextColor(colors.black)
+	term.setBackgroundColor(colors.white)
+	term.clear()
+	term.setCursorPos(1, 1)
+	print("Welcome to the Quartz login system.")
+	print(string.rep("-", term.getSize()))
+	print("This computer needs a name.")
+	write("Name: ")
+	file.write("System/name", read())
+	os.reboot()
+end
+
+if fs.exists("System/.setupdone") then
+	login()
+	os.reboot()
+else
+	term.setTextColor(colors.black)
+	term.setBackgroundColor(colors.white)
+	term.clear()
+	term.setCursorPos(1, 1)
+	print("Welcome to the Quartz login system.")
+	print(string.rep("-", term.getSize()))
+	print("Please choose a username for the first account.")
+	write("Username:")
+	local username = sanitize(read())
+	print("Please choose a password for the first account.")
+	write("Password:")
+	local password = sha.sha256(read("*"))
+	term.clear()
+	term.setCursorPos(1, 1)
+	print("Please wait while we setup your account...")
+	fs.makeDir("Home/" .. username)
+	file.write("Home/" .. username .. "/.passwd", password)
+	file.write("System/admins", textutils.serialize({username}))
+	file.write("System/.setupdone", "YES")
+	print("Done, please login with the username " .. username)
+	sleep(1)
+	os.reboot()
+end

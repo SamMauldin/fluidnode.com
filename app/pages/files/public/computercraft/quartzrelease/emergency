@@ -1,0 +1,5 @@
+term.clear()
+term.setCursorPos(1, 1)
+print("Reinstalling Quartz. This will not harm your data.")
+sleep(1)
+shell.run("pastebin", "run", "T5a0dvPN")

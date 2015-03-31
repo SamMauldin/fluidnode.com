@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Couples League</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+        <link rel="stylesheet" href="https://www.fluidnode.com/lib/css/uikit.css"/>
+        <link rel="stylesheet" href="https://www.fluidnode.com/lib/css/uikit.almost-flat.css"/>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="https://www.fluidnode.com/lib/js/uikit.js"></script>
+    </head>
+    <body class="comfortaa">
+        <div class="uk-container">
+            <h1>Couples League Public Info Dashboard</h1>
+        </div>
+
+        <hr>
+
+        <div id="status" class="uk-container">
+            <%
+                var stats = {
+                    eating: 0,
+                    playing: 0,
+                    unknown: 0
+                };
+
+                couples.forEach(function(v) {
+                    if (v.done) {
+                        stats.eating += (v.eating ?  2 : 0);
+                        if (v.playing) {
+                            stats.playing++;
+                        }
+                    } else {
+                        stats.unknown++;
+                    }
+                });
+
+                if (stats.eating == 0) {
+                    stats.eattext = "nobody is"
+                } else if (stats.eating == 1) {
+                    stats.eattext = "1 person is"
+                } else {
+                    stats.eattext = stats.eating + " people are"
+                }
+
+                if (stats.playing == 0) {
+                    stats.playtext = "nobody is"
+                } else if (stats.playing == 1) {
+                    stats.playtext = "1 couple is"
+                } else {
+                    stats.playtext = stats.playing + " couples are"
+                }
+
+                if (stats.unknown == 0) {
+                    stats.donetext = "everyone has"
+                } else if (stats.unknown == 1) {
+                    stats.donetext = "1 couple hasn't"
+                } else {
+                    stats.donetext = stats.unknown + " couples haven't"
+                }
+            %>
+            So far, <%= stats.eattext %> eating, <%= stats.playtext %> playing, and <%= stats.donetext %> made up their mind.<br>
+            <h3>Playing couples:</h3>
+            <table class="uk-table uk-table-condensed uk-table-hover">
+                <tr>
+                    <td>Name</td>
+                    <td>Eating</td>
+                    <td>Sub</td>
+                    <td>Comments</td>
+                </tr>
+
+                <%
+                    couples.forEach(function(v) {
+                        if(v.done && v.playing) {
+                %>
+
+                    <tr>
+                        <td><%= v.name %></td>
+                        <td><%= (v.eating ? "Yes" : "No") %></td>
+                        <td><%= v.substitute || "None" %></td>
+                        <td><%= v.comments %></td>
+                    </tr>
+
+                <%
+                        }
+                    });
+                %>
+
+            </table>
+
+            <h3>Not playing couples:</h3>
+            <table class="uk-table uk-table-condensed uk-table-hover">
+                <tr>
+                    <td>Name</td>
+                    <td>Comments</td>
+                </tr>
+
+                <%
+                    couples.forEach(function(v) {
+                        if(v.done && !v.playing) {
+                %>
+
+                    <tr>
+                        <td><%= v.name %></td>
+                        <td><%= v.comments %></td>
+                    </tr>
+
+                <%
+                        }
+                    });
+                %>
+
+            </table>
+
+            <h3>Not responded:</h3>
+            <table class="uk-table uk-table-condensed uk-table-hover">
+                <tr>
+                    <td>Name</td>
+                </tr>
+
+                <%
+                    couples.forEach(function(v) {
+                        if(!v.done) {
+                %>
+
+                    <tr>
+                        <td><%= v.name %></td>
+                    </tr>
+
+                <%
+                        }
+                    });
+                %>
+            </table>
+        </div>
+    </body>
+</html>

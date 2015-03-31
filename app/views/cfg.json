@@ -1,0 +1,18 @@
+{
+	"emailText" : {
+		"start" : "Hello (names)! <br/> Please RSVP for the upcoming Couples tournament <a href='(url)'>here!</a> If the link does not work, please copy and paste the following link into your browser: (url)",
+		"remind": "(names), it appears you haven't submitted your RSVP for the upcoming Couples tournament. Please do that <a href='(url)'>here!</a> If the link does not work, please copy and paste the following link into your browser: (url)",
+		"cutoff": "Dear (names), <br/> If you are receiving this email, you have registered to play in the Couples playday on (day)! <br/> Plan to arrive no later than (arrive) <br/> Call the golf shop at 512.930.5698 to change your RSVP.  Thanks!",
+		"summary": "**"
+	},
+	"admin": {
+		"users": {
+			"Sam" : {
+				"pass": "98a1f727cfddc264ab6c67f6d5241415cca53c27b3b58b5a687b23f9fa7b0dae0f1d1c8495659e3b922024f6f30d673db23c1c197ee471a2fed4ec50c97929d1"
+			}
+		}
+	},
+	"registration": {
+		"enable": true
+	}
+}

@@ -1,0 +1,9 @@
+if not _G.quartz.admin then
+	error("Admin required")
+end
+
+print("Forcing full Quartz reinstall.")
+print("You will need to run the emergency program")
+sleep(1)
+fs.delete("/System/boot")
+os.reboot()

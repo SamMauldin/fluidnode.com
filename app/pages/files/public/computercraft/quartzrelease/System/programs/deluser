@@ -1,0 +1,33 @@
+if not _G.quartz.admin then
+	error("Admin required")
+end
+
+write("Username:")
+local user = read()
+
+write("Are you sure?[y/n]:")
+local del = read()
+if del == "y" then
+	fs.delete("Home/" .. user)
+	local admins = textutils.unserialize(file.read("System/admins"))
+	
+	if not admins then
+		print("Unable to access the admins file")
+		print("Your system may be corrupted.")
+		error("File Error", 0)
+	end
+	local key = nil
+	for k,v in pairs(admins) do
+		if v == user then
+			key = k
+		end
+	end
+	if key then
+		admins[key] = nil
+	end
+	
+	file.write("System/admins", textutils.serialize(admins))
+	print("User deleted.")
+else
+	print("Aborted")
+end

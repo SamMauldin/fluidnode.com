@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+        
+		<title>Display Manager</title>
+        
+        <link rel="stylesheet" href="https://www.fluidnode.com/lib/css/uikit.almost-flat.css"/>
+        <style type="text/css">
+        	.circle {
+        		border-radius:50%;
+        		width: 25px;
+        		height: 25px;
+        	}
+        	.green {
+        		background-color: lime;
+        		color: lime;
+        	}
+        	.red {
+        		background-color: red;
+        		color: red;
+        	}
+        </style>
+        
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="https://www.fluidnode.com/lib/js/uikit.js"></script>
+        <script src="https://www.fluidnode.com/lib/js/parse.min.js"></script>
+	</head>
+	<body>
+		<div class="uk-container">
+			<h1>Display Manager</h1>
+			Status: <span id="status">Preparing...</span><br/><br/>
+			<hr>
+			<h2>Upload File</h2>
+			Note: 10 MB max size.<br/>
+        	<span id="uploadcontainer"><input type="file" id="pictureUpload"></span><br/><br/>
+        	<button onclick="upload()" class="uk-button uk-button-success">Upload Image</button> <button onclick="upload(true)" class="uk-button uk-button-success">Upload Video</button>
+        	<hr>
+        	<h2>Manage Files</h2>
+        	<table class="uk-table uk-table-striped">
+        		<tbody id="imagetable">
+        			
+        		</tbody>
+        	</table>
+        	<h2>Settings</h2>
+        	Current interval: <span id="interval">10</span> seconds<br/>
+        	<button onclick="setinterval()" class="uk-button uk-button-success">Set interval</button><br/><br/>
+        </div>
+        <script src="code.js"></script>
+	</body>
+</html>

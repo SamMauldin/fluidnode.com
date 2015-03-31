@@ -1,0 +1,118 @@
+local base = _G.quartz.base .. ""
+local rootfs = {}
+
+for k,v in pairs(fs) do
+	rootfs[k]=v
+end
+
+local write_files = {"/"}
+local read_files = {"/"}
+
+local done = false
+
+function protect(writef, readf)
+	if not done then
+		write_files = writef
+		read_files = readf
+		done = true
+	end
+end
+
+local function shorten(filestr)
+	return rootfs.combine(base, filestr)
+end
+
+local sub=string.sub
+
+--From lua users wiki
+local function starts(String,Start)
+   return sub(String,1,string.len(Start))==Start
+end
+
+local function valid(path, mode)
+	local allowed=false
+	local xpath=shorten(path)
+	for k,v in pairs(write_files) do
+		if starts(xpath, shorten(v)) then
+			allowed = true
+		end
+	end
+	if allowed then
+		if mode then
+			return true
+		end
+		return xpath
+	else
+		if mode then
+			return false
+		end
+		error("Access denied")
+	end
+end
+
+local function validread(path)
+	local allowed=false
+	local xpath=shorten(path)
+	for k,v in pairs(read_files) do
+		if starts(xpath, shorten(v)) then
+			allowed = true
+		end
+	end
+	if allowed then
+		return xpath
+	else
+		error("Access denied for " .. xpath)
+	end
+end
+fs.list=function(path)
+	return rootfs.list(validread(path))
+end
+fs.exists=function(path)
+	return rootfs.exists(validread(path))
+end
+fs.isDir=function(path)
+	return rootfs.isDir(validread(path))
+end
+fs.isReadOnly=function(path)
+	if valid(path, true) then
+		return rootfs.isReadOnly(valid(path))
+	else
+		return true
+	end
+end
+fs.getDrive=function(path)
+	return rootfs.getDrive(validread(path))
+end
+fs.getSize=function(path)
+	return rootfs.getSize(validread(path))
+end
+fs.getFreeSpace=function(path)
+	return rootfs.getFreeSpace(validread(path))
+end
+fs.find=function(path)
+	local found = rootfs.find(base .. path)
+	local newfound = {}
+	for k, v in pairs(found) do
+		newfound[k] = v:sub(#base)
+	end
+	return newfound
+end
+fs.makeDir=function(path)
+	return rootfs.makeDir(valid(path))
+end
+fs.move=function(path, cpath)
+	return rootfs.move(valid(path), valid(cpath))
+end
+fs.copy=function(path, cpath)
+	return rootfs.copy(validread(path), valid(cpath))
+end
+fs.delete=function(path)
+	return rootfs.delete(valid(path))
+end
+fs.open=function(path, m)
+	if m == "r" or m =="br" then
+		return rootfs.open(validread(path), m)
+	else
+		return rootfs.open(valid(path), m)
+	end
+end

@@ -1,0 +1,41 @@
+function run()
+	print("Checking for update!")
+	
+	local url = "http://files.fluidnode.com/public/computercraft/quartzrelease/"
+	
+	if _G.quartz.devmode then
+		url = "http://files.fluidnode.com/public/computercraft/quartz/"
+	end
+	
+	if not http then
+		return
+	end
+	
+	local version = http.get(url .. "System/version")
+	
+	if version then
+		if not (file.read("System/version") == version.readAll()) then
+			print("We have an update!")
+			
+			local list = http.get(url .. "files")
+			if list then
+				list = loadstring(list.readAll())()
+				for k,v in pairs(list) do
+					local content = http.get(url .. v)
+					if content then
+						file.write(v, content.readAll())
+					else
+						print("Failed to download " .. v .. ":(")
+					end
+				end
+				fs.delete("/emergency")
+				os.reboot()
+			else
+				print("Update failed. We'll try later.")
+			end
+			
+		else
+			print("Quartz is up to date!")
+		end
+	end
+end

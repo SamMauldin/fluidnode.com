@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Couples League</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+        <link rel="stylesheet" href="https://www.fluidnode.com/lib/css/uikit.css"/>
+        <link rel="stylesheet" href="https://www.fluidnode.com/lib/css/uikit.almost-flat.css"/>
+        <link rel="stylesheet" href="https://www.fluidnode.com/lib/css/components/datepicker.almost-flat.css"/>
+
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="https://www.fluidnode.com/lib/js/uikit.js"></script>
+        <script src="https://www.fluidnode.com/lib/js/components/datepicker.min.js"></script>
+
+        <link rel="stylesheet" href="/lib/codemirror/lib/codemirror.css">
+        <script src="/lib/codemirror/lib/codemirror.js"></script>
+        <script src="/lib/codemirror/mode/markdown/markdown.js"></script>
+        <script src="/lib/codemirror/addon/mode/overlay.js"></script>
+        <script src="/lib/codemirror/mode/xml/xml.js"></script>
+        <script src="/lib/codemirror/mode/gfm/gfm.js"></script>
+        <script src="/lib/marked.js"></script>
+
+        <!-- HTML editor CSS and JavaScript -->
+        <link rel="stylesheet" href="https://www.fluidnode.com/lib/css/components/htmleditor.almost-flat.css">
+        <script src="https://www.fluidnode.com/lib/js/components/htmleditor.min.js"></script>
+    </head>
+    <body>
+        <div class="uk-container">
+            <h1>Couples League Dashboard</h1>
+            <a href="#menu" data-uk-offcanvas><span class="uk-icon-reorder uk-icon-medium" id="currentpage"> Status</span></a>
+        </div>
+        <hr/>
+
+        <div id="menu" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <ul class="uk-nav uk-nav-offcanvas" data-uk-nav>
+                    <li><a href="javascript:void();" onclick="page('Status')">Status</a></li>
+                    <li><a href="javascript:void();" onclick="page('Tournament Control')">Tournament Control</a></li>
+                    <li><a href="javascript:void();" onclick="page('User Management')">User Management</a></li>
+                    <li><a href="javascript:void();" onclick="page('Email')">Email</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="status" class="uk-container">
+            <%
+                var stats = {
+                    eating: 0,
+                    playing: 0,
+                    unknown: 0
+                };
+
+                couples.forEach(function(v) {
+                    if (v.done) {
+                        stats.eating += (v.eating ?  2 : 0);
+                        if (v.playing) {
+                            stats.playing++;
+                        }
+                    } else {
+                        stats.unknown++;
+                    }
+                });
+
+                if (stats.eating == 0) {
+                    stats.eattext = "nobody is"
+                } else if (stats.eating == 1) {
+                    stats.eattext = "1 person is"
+                } else {
+                    stats.eattext = stats.eating + " people are"
+                }
+
+                if (stats.playing == 0) {
+                    stats.playtext = "nobody is"
+                } else if (stats.playing == 1) {
+                    stats.playtext = "1 couple is"
+                } else {
+                    stats.playtext = stats.playing + " couples are"
+                }
+
+                if (stats.unknown == 0) {
+                    stats.donetext = "everyone has"
+                } else if (stats.unknown == 1) {
+                    stats.donetext = "1 couple hasn't"
+                } else {
+                    stats.donetext = stats.unknown + " couples haven't"
+                }
+            %>
+            So far, <%= stats.eattext %> eating, <%= stats.playtext %> playing, and <%= stats.donetext %> made up their mind.<br/>
+            <h3>Playing couples:</h3>
+            <table class="uk-table uk-table-condensed uk-table-hover">
+                <tr>
+                    <td>Name</td>
+                    <td>Eating</td>
+                    <td>Sub</td>
+                    <td>Comments</td>
+                </tr>
+
+                <%
+                    couples.forEach(function(v) {
+                        if(v.done && v.playing) {
+                %>
+
+                    <tr>
+                        <td><%= v.name %></td>
+                        <td><%= (v.eating ? "Yes" : "No") %></td>
+                        <td><%= v.substitute || "None" %></td>
+                        <td><%= v.comments %></td>
+                    </tr>
+
+                <%
+                        }
+                    });
+                %>
+
+            </table>
+
+            <h3>Not playing couples:</h3>
+            <table class="uk-table uk-table-condensed uk-table-hover">
+                <tr>
+                    <td>Name</td>
+                    <td>Comments</td>
+                </tr>
+
+                <%
+                    couples.forEach(function(v) {
+                        if(v.done && !v.playing) {
+                %>
+
+                    <tr>
+                        <td><%= v.name %></td>
+                        <td><%= v.comments %></td>
+                    </tr>
+
+                <%
+                        }
+                    });
+                %>
+
+            </table>
+
+            <h3>Not responded:</h3>
+            <table class="uk-table uk-table-condensed uk-table-hover">
+                <tr>
+                    <td>Name</td>
+                    <td>ID</td>
+                </tr>
+
+                <%
+                    couples.forEach(function(v) {
+                        if(!v.done) {
+                %>
+
+                    <tr>
+                        <td><%= v.name %></td>
+                        <td><%= v.coupleId %></td>
+                    </tr>
+
+                <%
+                        }
+                    });
+                %>
+            </table>
+        </div>
+
+        <div id="control" class="uk-container">
+        	<form action="start" method="post" class="uk-panel uk-panel-box">
+        		<h3>Tournament Status</h3>
+                <% if (tourn.stage === 0) { %>
+        			The tournament is active. No emails have been sent.
+                <% } else if (tourn.stage == 1) { %>
+                    The tournament is active. The intial email has been sent.
+                <% } else if (tourn.stage == 2) { %>
+                    The tournament is active. The reminder email has been sent.
+        		<% } else { %>
+                    No tournament active at this time.<br><br>
+                    <button class="uk-button uk-button-primary" type="submit">Start Tournament</button>
+        		<% } %>
+        		<br/>
+        	</form>
+
+            <br>
+
+        	<form action="tourn" method="post" class="uk-form uk-form-stacked uk-panel uk-panel-box">
+
+                <h3>Tournament Details</h3>
+
+                <div class="uk-form-row">
+                    <label class="uk-form-label" for="arrive">Arrive at:</label>
+                    <div class="uk-form-icon">
+                        <i class="uk-icon-clock-o"></i>
+                        <input type="text" name="arrive" value="<%= tourn.get("arrive") %>"/>
+                    </div>
+                </div>
+
+                <div class="uk-form-row">
+                    <label class="uk-form-label" for="day">Day:</label>
+                    <div class="uk-form-icon">
+                        <i class="uk-icon-calendar"></i>
+                        <input type="text" data-uk-datepicker="{format:'MM/DD/YYYY'}" name="day" value="<%= tourn.get("day") %>"/>
+                    </div>
+                </div>
+
+                <div class="uk-form-row">
+                    <label class="uk-form-label" for="format">Format:</label>
+                    <div class="uk-form-icon">
+                        <i class="uk-icon-file-text"></i>
+                        <input type="text" name="format" value="<%= tourn.get("format") %>"/>
+                    </div>
+                </div>
+
+                <div class="uk-form-row">
+                    <label class="uk-form-label" for="time">Shotgun:</label>
+                    <div class="uk-form-icon">
+                        <i class="uk-icon-clock-o"></i>
+                        <input type="text" name="time" value="<%= tourn.get("time") %>"/>
+                    </div>
+                </div>
+
+                <div class="uk-form-row">
+                    <label class="uk-form-label" for="details">Details:</label>
+                    <div class="uk-form-icon">
+                        <i class="uk-icon-file-text"></i>
+                        <input type="text" class="uk-form-width-large" name="details" value="<%= tourn.get("details") %>"/>
+                    </div>
+                </div>
+
+                <div class="uk-form-row">
+                    <label class="uk-form-label" for="menu">Menu:</label>
+                    <div class="uk-form-icon">
+                        <i class="uk-icon-glass"></i>
+                        <input type="text" class="uk-form-width-large" name="menu" value="<%= tourn.get("menu") %>"/>
+                    </div>
+                </div>
+
+                <div class="uk-form-row">
+                    <button type="submit" class="uk-button uk-button-success">Save</button>
+                </div>
+        	</form>
+            <br>
+        </div>
+
+        <div id="email" class="uk-container">
+            <h3>Send an email</h3>
+            <form action="sendmail" class="uk-form" method="post">
+                Subject: <input type="text" name="subject"/><br><br>
+                <textarea data-uk-htmleditor name="email"></textarea>
+                </br>
+
+                <button type="submit" class="uk-button uk-button-primary">Send</button>
+                <br>
+            </form>
+        </div>
+
+        <div id="users" class="uk-container">
+            <h3>Manage Users</h3>
+            <table class="uk-table uk-table-hover">
+                <tr>
+                    <td>Names</td>
+                    <td>ID</td>
+                    <td>Email 1</td>
+                    <td>Email 2</td>
+                    <td>Edit</td>
+                </tr>
+                <%
+                    couples.forEach(function(v) {
+                %>
+
+                    <tr>
+                        <td><%= v.name %></td>
+                        <td><%= v.coupleId %></td>
+                        <td>
+                            <%
+                                if (v.email == "spam@fluidnode.com") {
+                            %>
+                                None
+                            <%
+                                } else {
+                            %>
+                                <a href="mailto:<%= v.email %>"><%= v.email %></a>
+                            <%
+                                }
+                            %>
+                        </td>
+                        <td>
+                            <%
+                                if (v.email2 == "spam@fluidnode.com") {
+                            %>
+                                None
+                            <%
+                                } else {
+                            %>
+                                <a href="mailto:<%= v.email2 %>"><%= v.email2 %></a>
+                            <%
+                                }
+                            %>
+                        </td>
+                        <td>
+                            <a href="/a/cpleague/user.html?id=<%= v.coupleId %>">Edit</a>
+                        </td>
+                    </tr>
+                <%
+                    });
+                %>
+            </table>
+        </div>
+
+        <script>
+
+            var pages = [
+                {name: "Status", id: "#status"},
+                {name: "Tournament Control", id: "#control"},
+                {name: "User Management", id: "#users"},
+                {name: "Email", id: "#email"}
+            ];
+
+            function hidepages() {
+                pages.forEach(function(v) {
+                    $(v.id).hide();
+                });
+            }
+
+            function page(name) {
+                localStorage.page = name;
+                hidepages();
+                pages.forEach(function(v) {
+                    if (v.name == name) {
+                        $(v.id).show();
+                        $("#currentpage").text(" " + v.name);
+                    }
+                });
+                jQuery.UIkit.offcanvas.hide();
+            }
+
+            if (localStorage.page) {
+                page(localStorage.page);
+            } else {
+                page("Status");
+            }
+        </script>
+    </body>
+</html>

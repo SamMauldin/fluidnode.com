@@ -1,0 +1,46 @@
+<html>
+    <body>
+        <br/>
+        <div class="uk-container" id="nav-intern">
+            <a href="#fluidnodemenu" data-uk-offcanvas><span class="uk-icon-reorder uk-icon-medium"> Fluidnode</span></a>
+        </div>
+
+        <div id="fluidnodemenu" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <ul class="uk-nav uk-nav-offcanvas" data-uk-nav>
+                    <li><a href="https://www.fluidnode.com">Home</a></li>
+                    <li><a href="https://fluid.fluidnode.com">Fluid Weather</a></li>
+                    <li><a href="https://nim.fluidnode.com">Nim: A game</a></li>
+                    <li><a href="http://david.fluidnode.com.psim.us">Pokémon Showdown Server</a></li>
+                    <li><a href="http://blog.sammauldin.com">Technical Ramblings</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <script>
+            function getURLParameters(url){
+
+                var result = {};
+                var searchIndex = url.indexOf("?");
+                if (searchIndex == -1 ) return result;
+                var sPageURL = url.substring(searchIndex +1);
+                var sURLVariables = sPageURL.split('&');
+                for (var i = 0; i < sURLVariables.length; i++)
+                {
+                    var sParameterName = sURLVariables[i].split('=');
+                    result[sParameterName[0]] = sParameterName[1];
+                }
+                return result;
+            }
+
+            $(function() {
+                var param = getURLParameters(location.href);
+
+                if(param.nav == "false") {
+                    $("#nav-intern").hide();
+                }
+            });
+        </script>
+        <br/>
+    </body>
+</html>

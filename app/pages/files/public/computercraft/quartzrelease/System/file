@@ -1,0 +1,25 @@
+function read(file, default)
+	if fs.exists(file) and not fs.isDir(file) then
+		local fh = fs.open(file, "r")
+		if fh then
+			local c = fh.readAll()
+			fh.close()
+			return c
+		else
+			return default
+		end
+	else
+		return default
+	end
+end
+
+function write(file, content)
+	local fh = fs.open(file, "w")
+	if fh then
+		fh.write(content)
+		fh.close()
+		return true
+	else
+		return false
+	end
+end

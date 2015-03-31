@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Couples League</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+        <link rel="stylesheet" href="https://www.fluidnode.com/lib/css/uikit.min.css"/>
+        <link rel="stylesheet" href="https://www.fluidnode.com/lib/css/uikit.almost-flat.css"/>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="https://www.fluidnode.com/lib/js/uikit.js"></script>
+    </head>
+    <body>
+        <div class="uk-container">
+            <h1>Here's who's playing</h1>
+
+            <table class="uk-table uk-table-hover">
+                <tr>
+                    <td>Name</td>
+                </tr>
+                <%
+                    var count = 0;
+                    couples.forEach(function(v) {
+                        if(v.done && v.playing) {
+                            count++;
+                %>
+
+                    <tr>
+                        <td><%= v.name %></td>
+                    </tr>
+
+                <%
+                        }
+                    });
+                %>
+
+            </table>
+            <h3><%= count %> couples have registered to play so far</h3>
+        </div>
+    </body>
+</html>

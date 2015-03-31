@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html ng-app>
+    <head>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+
+        <title>Nim</title>
+
+        <link rel="stylesheet" href="https://www.fluidnode.com/lib/css/uikit.almost-flat.css"/>
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+        <script src="https://www.fluidnode.com/lib/js/uikit.js"></script>
+        <script src="nim.js"></script>
+    </head>
+    <body>
+        <div id="nav"></div>
+        <div class="uk-text-center">
+            <h1>Nim</h1>
+            <h3>How to play:<br><br>
+            You take turns taking any amount of sticks from one pile.<br>
+            The person who takes the last stick loses.<br>
+            May the most skilled win!</h3>
+        </div>
+        <div id="nim" ng-controller="NimCtrl">
+            <table class="uk-table  uk-text-center" id="dataview">
+                <tbody>
+                    <tr>
+                        <td>{{game[0]}}</td>
+                        <td>{{game[1]}}</td>
+                        <td>{{game[2]}}</td>
+                        <td>{{game[3]}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="uk-button" ng-click="take(0)" ng-disabled="show(0)">Take</button>
+                        </td>
+                        <td>
+                            <button class="uk-button" ng-click="take(1)" ng-disabled="show(1)">Take</button>
+                        </td>
+                        <td>
+                            <button class="uk-button" ng-click="take(2)" ng-disabled="show(2)">Take</button>
+                        </td>
+                        <td>
+                            <button class="uk-button" ng-click="take(3)" ng-disabled="show(3)">Take</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br/>
+            <div class="uk-container uk-container-center uk-text-center">
+                <button class="uk-button uk-button-danger" ng-disabled="show('end')" ng-click="endturn()">End Turn</button>
+                <p>{{textdat}}</p>
+                <button class="uk-button uk-button-danger" onclick="restart()">Restart</button>
+            </div>
+        </div>
+        <script src="https://www.fluidnode.com/lib/js/page.js"></script>
+    </body>
+</html>

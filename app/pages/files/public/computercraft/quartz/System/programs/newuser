@@ -1,0 +1,30 @@
+if not _G.quartz.admin then
+	error("Admin required")
+end
+
+function sanitize(str)
+	str = string.gsub(str, "/", ":")
+	str = string.gsub(str, "%.", ":")
+	return str
+end
+
+write("Username:")
+local username = sanitize(read())
+write("Password:")
+local password = sha.sha256(read())
+write("Admin[y/n]:")
+local admin = read()
+if admin == "y" then
+	print("Making new admin account.")
+end
+write("Are these settings correct[y/n]:")
+if read() == "y" then
+	fs.makeDir("Home/" .. username)
+	file.write("Home/" .. username .. "/.passwd", password)
+	if admin == "y" then
+		local admins = textutils.unserialize(file.read("System/admins", nil))
+		table.insert(admins, username)
+		file.write("System/admins", textutils.serialize(admins))
+	end
+	print("Done!")
+end

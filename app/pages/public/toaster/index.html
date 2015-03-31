@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title id="title">Toaster Clicker</title>
+		
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" href="https://www.fluidnode.com/lib/css/uikit.css"/>
+        <link rel="stylesheet" href="https://www.fluidnode.com/lib/css/uikit.almost-flat.css"/>
+		
+		<style>
+			#center {
+				position: absolute;
+				margin: auto;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				width: 350px;
+				height: 272px;
+			}
+			.centertext {
+				text-align: center;
+			}
+		</style>
+		
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="/lib/js/uikit.js"></script>
+        <script src="toaster.js"></script>
+    </head>
+	<body onload="load()" ontouchmove="noscroll()">
+		<div>
+			<h1 id="toastamt" class="centertext">Loading</h1>
+			<div id="toastps" class="centertext">Loading</div>
+			<button class="uk-button uk-button-primary uk-width-1-1" onclick="store()">Store</button>
+			
+			<div id="center" onclick="toast(true)" ontouchend="toast(false)">
+				<img src="/lib/img/toaster.jpg" width="350" height="272"/>
+			</div>
+		</div>
+		
+		<div id="store" class="uk-modal">
+			<div class="uk-modal-dialog">
+        		<a class="uk-modal-close uk-close"></a>
+        		<h1>Store</h1>
+        		<ul class="uk-list uk-list-striped">
+        			<li>Toaster: A toaster to toast +0.1tps <a onclick="buy('toaster')">Buy for 150 toast</a></li>
+        			<li>Cat: A nice cat to make toast +1tps <a onclick="buy('cat')">Buy for 1000 toast</a></li>
+        			<li>Wizard Cat: Magical toast +15tps <a onclick="buy('wizardcat')">Buy for 10000 toast</a></li>
+        			<li>Spoon: How else will you eat it? +50tps <a onclick="buy('spoon')">Buy for 20000 toast</a></li>
+        			<li>Temperature Dial: Custom cooked toast +100tps <a onclick="buy('tempdial')">Buy for 15000 toast</a></li>
+        			<li>Bakery: Gourmet toast +1000tps <a onclick="buy('bakery')">Buy for 100000 toast</a></li>
+        			<li>Spoon Dragon: Fyer +15000tps <a onclick="buy('spoondragon')">Buy for 1000000 toast</a></li>
+					<li>Cat Shelter: Meow +20000tps <a onclick="buy('catshelter')">Buy for 10000000 toast </a></li>
+					<li>Reset: Reset your game <a onclick="resetPrompt()">Reset</a></li>
+        			<li>Toaster Clicker v<span id="version">...</span>. Copyright Sam Mauldin 2014</li>
+        		</ul>
+        	</div>
+		</div>
+	</body>
+</html>

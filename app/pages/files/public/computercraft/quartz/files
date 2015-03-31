@@ -1,0 +1,17 @@
+return {
+	"startup",
+	"emergency",
+	"System/boot",
+	"System/file",
+	"System/programs/logout",
+	"System/programs/newuser",
+	"System/programs/passwd",
+	"System/programs/deluser",
+	"System/programs/devmode",
+	"System/programs/forceupdate",
+	"System/programs/sxwinstall",
+	"System/protect",
+	"System/sha",
+	"System/updater",
+	"System/version"
+}

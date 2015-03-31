@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <script src="https://account.fluidnode.com/api.js"></script>
+        <script>
+            function fluidnodeAccountReady() {
+                fluidnodeAccount.onSiteToken(function(err, token, username, origin) {
+                    if (err) {
+                        alert("Error: " + err);
+                        return;
+                    }
+                    alert(username + ":" + token + " for " + origin);
+                });
+            }
+        </script>
+        This page should ask you to authenticate with Fluidnode Account
+    </body>
+</html>

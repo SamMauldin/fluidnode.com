@@ -1,0 +1,21 @@
+html {
+    background-color: rgb(16, 163, 221);
+    color: white;
+    text-shadow: 1px 1px 0px grey;
+}
+
+p {
+    line-height: 32px;
+}
+
+.nunito {
+    font-family: Nunito,Helvetica,sans-serif;
+}
+
+.text-normal {
+    font-size: 20px;
+}
+
+.text-large {
+    font-size: 27px;
+}

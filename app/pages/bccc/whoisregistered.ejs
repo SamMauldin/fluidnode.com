@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>2015 Couples Golf Association Members</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <style type="text/css">
+    .text {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-weight: 400;
+        color: #555;
+    }
+    .texth {
+        font-size: 45px;
+        color: black;
+    }
+    </style>
+</head>
+<body class="text">
+    <div class="texth">2015 Couples Golf Association Members</div><br>
+    <ol>
+        <%
+
+        /*couples.sort(function(a, b) {
+
+            a = a.split(" ")[1].charCodeAt();
+            b = b.split(" ")[1].charCodeAt();
+
+            if (a == b) {
+                return 0;
+            } else if (a < b) {
+                return -1;
+            } else {
+                return 1;
+            }
+
+        });*/
+
+        couples.forEach(function(v) {
+        %>
+            <li><%= v.name %></li>
+        <%
+        });
+        %>
+    </ol>
+</body>
+</html>

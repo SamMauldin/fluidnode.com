@@ -1,0 +1,67 @@
+_G._st = true
+
+function clear()
+	term.setBackgroundColor(colors.white)
+	term.setTextColor(colors.black)
+	term.clear()
+	term.setCursorPos(1, 1)
+end
+
+function welcome()
+	clear()
+	print("Quartz is booting up!")
+	print("Won't be long now!")
+end
+
+clear()
+
+print("Welcome to Quartz!")
+print(string.rep("-", term.getSize()))
+print("Booting Quartz OS")
+print("Please wait...")
+local rp = shell.getRunningProgram()
+
+function updateHandler(base)
+	if fs.exists(base .. "quartz/System/startup") then
+		fs.delete("/startup")
+		fs.move(base .. "quartz/System/startup", "/startup")
+	end
+end
+
+if rp == "startup" then
+	if fs.exists("/System") then
+		if fs.exists("/quartz") then
+			fs.move("/quartz/System/admins", "/tmpadmins")
+			fs.move("/quartz/System/name", "/tmpname")
+			fs.delete("/quartz/System")
+			fs.move("/System", "/quartz/System")
+			fs.move("/tmpadmins", "/quartz/System/admins")
+			fs.move("/tmpname", "/quartz/System/name")
+			fs.makeDir("/quartz/System/.setupdone")
+		else
+			fs.makeDir("/quartz")
+			fs.move("/System", "/quartz/System")
+			if fs.exists("/Home") then
+				fs.move("/Home", "/quartz/Home")
+			end
+			fs.copy("/rom", "/quartz/rom")
+		end
+	end
+	updateHandler("/")
+	welcome()
+	shell.run("/quartz/System/boot", "/quartz/")
+else
+	local base = "/" .. rp:sub(0, #rp-7)
+	if fs.exists(base .. "System") then
+		print("You need to boot Quartz on the PDA first for this update.")
+		sleep(1)
+		os.shutdown()
+	end
+	updateHandler(base)
+	welcome()
+	shell.run(base .. "quartz/System/boot", base .. "quartz/")
+end
+
+clear()
+
+print("The system could not boot. Please run the emergency program to try and fix it.")

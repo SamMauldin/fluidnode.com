@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Couples League</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+
+    <link rel="stylesheet" href="https://www.fluidnode.com/lib/css/uikit.min.css"/>
+    <link rel="stylesheet" href="https://www.fluidnode.com/lib/css/uikit.almost-flat.css"/>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://www.fluidnode.com/lib/js/uikit.js"></script>
+
+</head>
+    <body>
+
+        <div class="uk-container">
+
+            <br>
+
+            <h1>Hello <%= couple.name %>!</h1>
+
+            <% step = couple.step; if (step == 1) { %>
+
+                <div class="uk-panel uk-panel-box uk-panel-box-primary">
+
+                    <h2>Registration for <%= tourn.day %> at <%= tourn.time %></h2>
+                    <h3>The format will be <%= tourn.format %></h3>
+                    <h3><%= tourn.details %></h3>
+
+                </div>
+
+                <br>
+
+                <form class="uk-form" method="post" action="/c/cpleague/submit/<%= couple.coupleId %>">
+
+                    <h2>Will you play?</h2>
+                    <div class="uk-grid">
+
+                        <div class="uk-width-1-2 uk-width-small-1-4 uk-width-medium-1-6 uk-width-large-1-8">
+
+                            <input id="playingyes" type="radio" checked="true" value="yes" name="playing">
+                            <label for="playingyes" class="uk-button uk-button-success">Yes</label>
+
+                        </div>
+
+                        <div class="uk-width-1-2 uk-width-small-1-4 uk-width-medium-1-6 uk-width-large-1-8">
+
+                            <input id="playingno" type="radio" value="no" name="playing">
+                            <label for="playingno" class="uk-button uk-button-danger">No</label>
+
+                        </div>
+
+                    </div>
+
+                    <h2>Enter your substitute's name here if you have one</h2>
+                    <input name="subname" type="text" placeholder="Leave blank if no sub">
+
+                    <h2>Will you be joining us for dinner?</h2>
+                    <h3><%= tourn.menu %></h3>
+                    <div class="uk-grid">
+
+                        <div class="uk-width-1-2 uk-width-small-1-4 uk-width-medium-1-6 uk-width-large-1-8">
+
+                            <input id="eatingyes" type="radio" checked="true" value="yes" name="eating">
+                            <label for="eatingyes" class="uk-button uk-button-success">Yes</label>
+
+                        </div>
+
+                        <div class="uk-width-1-2 uk-width-small-1-4 uk-width-medium-1-6 uk-width-large-1-8">
+
+                            <input id="eatingno" type="radio" value="no" name="eating">
+                            <label for="eatingno" class="uk-button uk-button-danger">No</label>
+
+                        </div>
+
+                    </div>
+
+                    <h2>Questions or comments?</h2>
+
+                    <textarea name="comments" placeholder="Enter questions or comments here" class="uk-form-width-large"></textarea>
+
+                    <h2>Submit your registration</h2>
+
+                    <button class="uk-button uk-button-primary" type="submit" onclick="no()">Click here to submit your registration</button>
+
+                </form>
+
+                <script>
+                    var leave = true;
+                    function no() {
+                        leave = false;
+                    }
+
+                    window.onbeforeunload = function(e) {
+                        if (leave) {
+                            e = e || window.event;
+                            var msg = "You have not finished your RSVP. Leave anyways?";
+                            if (e) {
+                                e.returnValue = msg;
+                            }
+
+                            return msg;
+                        }
+                    };
+                </script>
+            <% } else if (step == 2) { %>
+                <p>
+                    <h2>Your RSVP is complete. Either you or your partner has selected the following:</h2>
+                    <div>
+                        <h3>Your selections:</h3>
+
+                        <% if (couple.playing) { %>
+                            <% if (!couple.substitute) { %>
+                                <h3>You are playing.</h3>
+                            <% } if (couple.substitute) { %>
+                                <h3>You are playing with substitute <%= couple.substitute %>.</h3>
+                            <% } %>
+                        <% } else { %>
+                            <h3>You are not attending.</h3>
+                        <% } %>
+
+                        <% if (couple.eating == 0) { %>
+                            <h3>You aren't eating.</h3>
+                        <% } else { %>
+                            <h3>You are eating.</h3>
+                        <% } %>
+
+
+                        <h3>Your comments: <%= couple.comments || "None" %></h3>
+                        <br><br>
+
+                        <a href="step2reset?id=<%= couple.coupleId %>" class="uk-button uk-button-danger">
+                            Click here to erase your selections and start over
+                        </a>
+                        <br><br>
+
+                        <h3>Click <a href="/p/cpleague/members.html" target="_blank">here</a> to see who else is playing.</h3>
+                    </div>
+                </p>
+            <% } else if (step == 3) { %>
+                Are you sure you want to erase your selections and start over?<br/><br/>
+
+                <a href="step3keep?id=<%= couple.coupleId %>" class="uk-button uk-button-success">
+                    No, keep my current selections
+                </a>
+
+                <br><br>
+
+                <a href="step3reset?id=<%= couple.coupleId %>" class="uk-button uk-button-danger">
+                    Yes, reset my selections
+                </a>
+
+            <% } else { %>
+                <p>Sorry, there is no event to register for at this time or the cutoff has been reached. If you believe this is an error please contact the golf shop.</p>
+            <% } %>
+
+            <% if (couple.windowsxp) { %>
+                <br/><br/>We have detected that you are using Windows XP. Microsoft no longer publishes updates for this operating system and it is highly recommended to upgrade to a newer release like Windows 7 or 8.
+                Using an old OS puts your computer and information at risk.<br/>
+                For more information at Microsoft's official site, click <a href="http://www.microsoft.com/windows/en-us/xp/end-of-xp-support.aspx">here.</a>
+            <% } %>
+
+            <br><br>
+
+            Need help with your registration? Send us an email at <a href="mailto:support@fluidleague.com">support@fluidleague.com</a>!
+
+            <br><br>
+
+        </div>
+    </body>
+</html>

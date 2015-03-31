@@ -1,0 +1,3 @@
+Homebrew casks: "wineskin-winery keka github iterm2 caffeine openemu"
+Homebrew packages: "ant cmake coreutils dnsmasq faac ffmpeg freetype gdbm gettext ghostscript glib gmp gnutls go graphicsmagick hping imagemagick irssi jbig2dec jpeg lame leptonica libconfig libffi libogg libpng libtasn1 libtiff libtool libvo-aacenc libvorbis libvpx libyaml little-cms2 lua makedepend maven mercurial mobile-shell mp4v2 nettle nmap node openssl p7zip pcre pixman pkg-config protobuf python3 qemu qpdf readline samba sqlite tesseract texi2html wget x264 xvid xz yasm zsh"
+prezto

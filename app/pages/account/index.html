@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+
+        <title>Fluidnode Account</title>
+
+        <link rel="stylesheet" href="https://www.fluidnode.com/lib/css/uikit.css"/>
+        <link rel="stylesheet" href="https://www.fluidnode.com/lib/css/uikit.almost-flat.css"/>
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="https://www.fluidnode.com/lib/js/uikit.js"></script>
+        <script src="https://www.fluidnode.com/lib/js/nav.js"></script>
+    </head>
+
+    <body>
+        <div id="nav"></div>
+
+        <div class="uk-container">
+
+            <h1>Fluidnode Account</h1>
+
+            <div id="loading">
+                Please wait...
+            </div>
+
+            <div id="registered">
+                Great! Now check your email for a verification link.
+            </div>
+
+            <div id="register">
+                <form class="uk-form uk-form-stacked uk-panel uk-panel-box">
+                    <div class="uk-form-row">
+                        <div class="uk-form-icon">
+                            <i class="uk-icon-users"></i>
+                            <input placeholder="Username" required="true" type="text" id="registerUsername"/>
+                        </div>
+                    </div>
+
+                    <div class="uk-form-row">
+                        <div class="uk-form-icon">
+                            <i class="uk-icon-key"></i>
+                            <input placeholder="Password" required="true" type="password" id="registerPassword"/>
+                        </div>
+                    </div>
+
+                    <div class="uk-form-row">
+                        <div class="uk-form-icon">
+                            <i class="uk-icon-envelope"></i>
+                            <input placeholder="Email" required="true" type="email" id="registerEmail"/>
+                        </div>
+                    </div>
+
+                    <div class="uk-form-row">
+                        <button class="uk-button uk-button-success" id="submitRegister">Register</button>
+                        <button class="uk-button uk-button-primary" id="viewLogin">I have an account</button>
+                    </div>
+
+                </form>
+            </div>
+
+            <div id="status">
+                <h2>Hello, <span id="namespan">unknown user</span>!</h2>
+                <h3>You're logged in.</h3>
+                <button class="uk-button uk-button-danger" id="logout">Log out</button>
+            </div>
+
+            <div id="login">
+                <form class="uk-form uk-form-stacked uk-panel uk-panel-box">
+                    <div class="uk-form-row">
+                        <div class="uk-form-icon">
+                            <i class="uk-icon-users"></i>
+                            <input placeholder="Username" required="true" type="text" id="loginUsername"/>
+                        </div>
+                    </div>
+
+                    <div class="uk-form-row">
+                        <div class="uk-form-icon">
+                            <i class="uk-icon-key"></i>
+                            <input placeholder="Password" required="true" type="password" id="loginPassword"/>
+                        </div>
+                    </div>
+
+                    <div class="uk-form-row">
+                        <button class="uk-button uk-button-success" id="submitLogin">Log in</button>
+                        <button class="uk-button uk-button-primary" id="viewRegister">Register</button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+
+        <script src="/account.js"></script>
+        <script src="https://www.fluidnode.com/lib/js/page.js"></script>
+    </body>
+</html>

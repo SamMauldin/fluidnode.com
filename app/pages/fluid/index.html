@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <title>Fluid</title>
+
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+        <link rel="apple-touch-icon" href="https://fluid.fluidnode.com/icon.png"/>
+        <link rel="apple-touch-startup-image" href="https://fluid.fluidnode.com/startup.png">
+
+        <link rel="stylesheet" href="https://www.fluidnode.com/lib/css/uikit.almost-flat.css"/>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="https://www.fluidnode.com/lib/js/uikit.js"></script>
+        <script src="https://www.fluidnode.com/lib/js/moment.min.js"></script>
+        <script src="https://fluid.fluidnode.com/skycons.js"></script>
+
+
+        <style>
+            canvas {
+                width: 100px;
+                height: 100px
+            }
+        </style>
+    </head>
+    <body>
+        <div id="fb-root"></div>
+        <script>(function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+        <br/>
+        <div class="uk-container">
+            <a href="#menu" data-uk-offcanvas><span class="uk-icon-reorder uk-icon-medium" id="currentpage"> Now</span></a>
+        </div>
+
+        <div id="menu" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <ul class="uk-nav uk-nav-offcanvas" data-uk-nav>
+                    <li><a href="#" onclick="page('Now')">Now</a></li>
+                    <li><a href="#" onclick="page('Extended')">Extended</a></li>
+                    <li><a href="#" onclick="page('Soon')">Soon</a></li>
+                    <li><a href="#" onclick="page('Today')">Today</a></li>
+                    <li><a href="#" onclick="page('Week')">Week</a></li>
+                    <li><a href="#" onclick="page('About')">About</a></li>
+                    <li id="nav-home"><a href="https://fluidnode.com">Home</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="current" class="uk-container">
+            <div class="uk-grid">
+                <div class="uk-width-1-2">
+                    <canvas id="nowIcon" width="200" height="200"></canvas>
+                </div>
+                <div class="uk-width-1-2">
+                    <h1><span id="nowTemp">Loading </span>ºF</h1>
+                    <h3><span id="nowSummary">Loading... </span></h3>
+                    <h3><span id="nowWindSpeed">Loading </span>mph (<span id="nowWindDirection">North</span>)</h3>
+                </div>
+            </div>
+
+            <div class="uk-container">
+                Rain: <span id="nowPrecip">Loading</span> inches/hr
+                <br/>
+                Rain Today: <span id="rainToday">Loading</span> inches
+                <br/>
+                Rain in Storm: <span id="rainStorm">Loading</span> inches
+            </div>
+            <br>
+            Fluid Weather is a free service. Please consider <a href="javascript:donate();void(0);">donating.</a> Thanks!
+        </div>
+
+        <div id="extended" class="uk-container">
+            <div class="uk-container">
+                Humidity: <span id="nowHumidity">Loading</span>%
+                <br/>
+                Visibility: <span id="nowVisibility">Loading</span> miles
+                <br/>
+                Pressure: <span id="nowPressure">Loading</span>"
+                <br/>
+                Dew Point: <span id="nowDewPoint">Loading</span>ºF
+                <br/>
+                Cloud Cover: <span id="nowCloudCover">Loading</span>%
+            </div>
+        </div>
+
+        <div id="soon" class="uk-container">
+            <div class="uk-grid">
+                <div class="uk-width-1-3">
+                    <canvas id="soonIcon" width="200" height="200"></canvas>
+                </div>
+
+                <div class="uk-width-2-3">
+                    <p><span id="soonSummary">Loading...</span></p>
+                </div>
+            </div>
+            <hr/>
+            <div class="uk-container">
+                <span id="soonPrecipChance">Loading</span>% chance of
+                <span id="soonPrecipType">loading</span> with
+                <span id="soonPrecipIntensity">loading</span> inches/hr
+            </div>
+        </div>
+
+        <div id="today" class="uk-container">
+            <div class="uk-grid">
+                <div class="uk-width-1-3">
+                    <canvas id="todayIcon" width="200" height="200"></canvas>
+                </div>
+                <div class="uk-width-2-3">
+                    <h1><span id="todayTempMin">loading</span>ºF - <span id="todayTempMax">loading</span>ºF</h1>
+                    <p><span id="todaySummary">Loading...</span></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="week" class="uk-container">
+            <div class="uk-grid">
+                <div class="uk-width-1-3">
+                    <canvas id="weekIcon" width="200" height="200"></canvas>
+                </div>
+                <div class="uk-width-2-3">
+                    <p><span id="weekSummary">Loading</span></p>
+                </div>
+            </div>
+            <hr/>
+            <div class="uk-container" id="weekList">
+                <div id="weekListDay1">
+                    <span class="weekDay"></span> - <span class="weekTemp"></span> - <span class="weekSummary"></span>
+                </div>
+                <div id="weekListDay2">
+                    <span class="weekDay"></span> - <span class="weekTemp"></span> - <span class="weekSummary"></span>
+                </div>
+                <div id="weekListDay3">
+                    <span class="weekDay"></span> - <span class="weekTemp"></span> - <span class="weekSummary"></span>
+                </div>
+                <div id="weekListDay4">
+                    <span class="weekDay"></span> - <span class="weekTemp"></span> - <span class="weekSummary"></span>
+                </div>
+                <div id="weekListDay5">
+                    <span class="weekDay"></span> - <span class="weekTemp"></span> - <span class="weekSummary"></span>
+                </div>
+                <div id="weekListDay6">
+                    <span class="weekDay"></span> - <span class="weekTemp"></span> - <span class="weekSummary"></span>
+                </div>
+                <div id="weekListDay7">
+                    <span class="weekDay"></span> - <span class="weekTemp"></span> - <span class="weekSummary"></span>
+                </div>
+                <div id="weekListDay8">
+                    <span class="weekDay"></span> - <span class="weekTemp"></span> - <span class="weekSummary"></span>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="about" class="uk-container">
+            <br/>
+            Made by Sam Mauldin.<br>
+            Powered by forecast.io and the Berry Creek weather station.<br><br>
+
+            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                <input type="hidden" name="cmd" value="_s-xclick">
+                <input type="hidden" name="hosted_button_id" value="24TQYQUW386LC">
+                <table>
+                    <tr><td><input type="hidden" name="on0" value="Amount">Please donate to fund future development</td></tr><tr><td><select name="os0">
+                        <option value="I use this some">I sometimes use this. $1.00 USD</option>
+                        <option value="I use this often">I use this often. $3.00 USD</option>
+                        <option value="I use this constantly!">I use this constantly! $5.00 USD</option>
+                    </select> </td></tr>
+                </table>
+                <input type="hidden" name="currency_code" value="USD">
+                <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+            </form>
+            <br><br>
+            <span id="apps">
+                <a href="https://files.fluidnode.com/public/fluid/FluidMac.app.zip">Download for Mac.</a>
+            </span>
+        </div>
+
+        <br><br>
+
+        <div class="uk-container">
+            <div class="fb-like" data-href="https://fluid.fluidnode.com" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+        </div>
+
+        <script>
+
+            var pages = [
+                {name: "Now", id: "#current"},
+                {name: "Extended", id: "#extended"},
+                {name: "Soon", id: "#soon"},
+                {name: "Today", id: "#today"},
+                {name: "Week", id: "#week"},
+                {name: "About", id: "#about"}
+            ];
+
+            function hidepages() {
+                pages.forEach(function(v) {
+                    $(v.id).hide();
+                });
+            }
+
+            hidepages();
+
+            $("#current").show();
+
+            function donate() {
+                page("About");
+            }
+
+            function page(name) {
+                hidepages();
+                pages.forEach(function(v) {
+                    if (v.name == name) {
+                        $(v.id).show();
+                        $("#currentpage").text(" " + v.name);
+                    }
+                });
+                jQuery.UIkit.offcanvas.hide();
+            }
+
+            var weather = null;
+            var skycons = new Skycons({"color": "#303030"});
+            var icdic = {
+                "clear-day": Skycons.CLEAR_DAY,
+                "clear-night": Skycons.CLEAR_NIGHT,
+                "rain": Skycons.RAIN,
+                "snow": Skycons.SNOW,
+                "sleet": Skycons.SLEET,
+                "wind": Skycons.WIND,
+                "fog": Skycons.FOG,
+                "cloudy": Skycons.CLOUDY,
+                "partly-cloudy-day": Skycons.PARTLY_CLOUDY_DAY,
+                "partly-cloudy-night": Skycons.PARTLY_CLOUDY_NIGHT
+            };
+
+            skycons.add("nowIcon", icdic["clear-day"]);
+            skycons.add("soonIcon", icdic["clear-day"]);
+            skycons.add("todayIcon", icdic["clear-day"]);
+            skycons.add("weekIcon", icdic["clear-day"]);
+            skycons.play();
+
+            function fetch(cb) {
+
+                $.getJSON("/forecast", function(data) {
+                    weather = data;
+
+                    var bccc = data;
+                    var forecast = JSON.parse(data.forecast);
+
+                    // Currently
+                    $("#nowSummary").text(forecast.currently.summary);
+
+                    $("#nowVisibility").text(forecast.currently.visibility);
+
+                    $("#nowCloudCover").text(forecast.currently.cloudCover * 100);
+                    $("#nowDewPoint").text(forecast.currently.dewPoint);
+
+                    skycons.set("nowIcon", icdic[forecast.currently.icon]);
+
+                    // Soon
+                    $("#soonSummary").text(forecast.minutely.summary);
+
+                    $("#soonPrecipChance").text(Math.ceil(forecast.minutely.data[0].precipProbability * 100));
+                    $("#soonPrecipType").text(forecast.minutely.data[0].precipType || "precipitation");
+                    $("#soonPrecipIntensity").text(forecast.minutely.data[0].precipIntensity);
+
+                    skycons.set("soonIcon", icdic[forecast.minutely.icon]);
+
+                    // Today
+                    $("#todaySummary").text(forecast.daily.data[0].summary);
+
+                    $("#todayTempMin").text(forecast.daily.data[0].temperatureMin);
+                    $("#todayTempMax").text(forecast.daily.data[0].temperatureMax);
+
+                    skycons.set("todayIcon", icdic[forecast.daily.data[0].icon]);
+
+                    // Week
+                    $("#weekSummary").text(forecast.daily.summary);
+                    skycons.set("weekIcon", icdic[forecast.daily.icon]);
+
+                    forecast.daily.data.forEach(function(v, k) {
+                        $("#weekListDay" + (k + 1) + " > .weekDay").text(moment.unix(v.time).format("ddd"));
+                        $("#weekListDay" + (k + 1) + " > .weekTemp").text(Math.round(v.temperatureMax) + " to " + Math.round(v.temperatureMin));
+                        $("#weekListDay" + (k + 1) + " > .weekSummary").text(v.summary);
+                    });
+
+                    $("#nowTemp").text(bccc.temp);
+                    $("#nowWindSpeed").text(bccc.windSpeed || 0);
+                    $("#nowWindDirection").text(bccc.windDirection);
+                    $("#nowHumidity").text(bccc.humidity);
+                    $("#nowPressure").text(bccc.pressure);
+                    $("#nowPrecip").text(bccc.rain);
+                    $("#rainToday").text(bccc.rainToday);
+                    $("#rainStorm").text(bccc.rainStorm);
+
+                    cb();
+
+                });
+            }
+
+            $(fetch);
+
+            setInterval(fetch, 1000 * 60);
+
+            function getURLParameters(url){
+                var result = {};
+                var searchIndex = url.indexOf("?");
+                if (searchIndex == -1 ) return result;
+                var sPageURL = url.substring(searchIndex +1);
+                var sURLVariables = sPageURL.split('&');
+                for (var i = 0; i < sURLVariables.length; i++)
+                {
+                    var sParameterName = sURLVariables[i].split('=');
+                    result[sParameterName[0]] = sParameterName[1];
+                }
+                return result;
+            }
+
+            $(function() {
+                var param = getURLParameters(location.href);
+
+                if (param.nav == "false") {
+                    $("#nav-home").hide();
+                }
+
+                if (param.ios || param.mac) {
+                    $("#apps").hide();
+                }
+            });
+        </script>
+        <script src="https://www.fluidnode.com/lib/js/page.js"></script>
+    </body>
+</html>
