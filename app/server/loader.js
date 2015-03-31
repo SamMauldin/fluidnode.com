@@ -4,9 +4,9 @@ GLOBAL.isProduction = __dirname == "/home/ubuntu/fluidnode.com/app/server";
 console.log("Running in production:" + isProduction);
 
 if (isProduction) {
-	GLOBAL.keySet = require("./keys").production;
+	GLOBAL.keySet = require("../../../fluidconfig/fluidnode.com/keyset").production;
 } else {
-	GLOBAL.keySet = require("./keys").development;
+	GLOBAL.keySet = require("../../../fluidconfig/fluidnode.com/keyset")..development;
 }
 
 var modules = [
