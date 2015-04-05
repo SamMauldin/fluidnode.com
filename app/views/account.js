@@ -152,7 +152,7 @@ var mailtransport = nodemailer.createTransport({
 	requireTLS: true,
 	auth: {
 		user: "accounts@fluidnode.com",
-		pass: "6x*fjjaSKryxwqmkcwgdutupmdj.arYV"
+		pass: keySet.mail.accounts
 	}
 });
 
