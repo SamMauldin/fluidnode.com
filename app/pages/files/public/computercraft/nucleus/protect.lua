@@ -39,7 +39,11 @@ local function valid(path, mode)
 end
 
 local function validread(path)
-	return shorten(path)
+	if starts(shorten(path), shorten("/.nucleusbios")) then
+		error("Access denied")
+	else
+		return shorten(path)
+	end
 end
 
 fs.list = function(path)
@@ -100,7 +104,7 @@ fs.delete = function(path)
 end
 
 fs.open = function(path, m)
-	if m == "r" or m =="br" then
+	if m == "r" or m =="rb" then
 		return rootfs.open(validread(path), m)
 	else
 		return rootfs.open(valid(path), m)

@@ -364,3 +364,7 @@ if not ok then
 end
 
 -- Commence boot!
+
+term.setCursorPos(1, 1)
+term.setTextColor(colors.yellow)
+print(os.version())
