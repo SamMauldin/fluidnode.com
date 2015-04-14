@@ -205,6 +205,7 @@ local oldPull = os.pullEvent
 os.pullEvent = os.pullEventRaw
 
 local function startProtect()
+    os.loadAPI("/.nucleusbios/security")
     dofile("/.nucleusbios/protect.lua")
     os.pullEvent = oldPull
     -- Entering protected mode!
@@ -364,6 +365,13 @@ if not ok then
 end
 
 -- Commence boot!
+
+local oldClock = os.clock
+local cTime = os.clock()
+
+os.clock = function()
+  return oldClock() - cTime
+end
 
 term.setCursorPos(1, 1)
 term.setTextColor(colors.yellow)

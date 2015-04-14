@@ -5,10 +5,6 @@ for k,v in pairs(fs) do
 	rootfs[k] = v
 end
 
-local function shorten(filestr)
-	return rootfs.combine(base, filestr)
-end
-
 -- Use only local functions to prevent hijacking
 local sub = string.sub
 local err = error
@@ -16,6 +12,14 @@ local err = error
 -- From Lua Users Wiki
 local function starts(String, Start)
    return sub(String, 1, string.len(Start)) == Start
+end
+
+local function shorten(filestr)
+	if starts(shorten(filestr), shorten("/.nucleusbios")) then
+		return rootfs.combine("/.nucleusbios/fakedir/", filestr)
+	else
+		return rootfs.combine(base, filestr)
+	end
 end
 
 local function valid(path, mode)
@@ -39,15 +43,22 @@ local function valid(path, mode)
 end
 
 local function validread(path)
-	if starts(shorten(path), shorten("/.nucleusbios")) then
-		error("Access denied")
-	else
-		return shorten(path)
-	end
+	return shorten(path)
 end
 
 fs.list = function(path)
-	return rootfs.list(validread(path))
+	if shorten(path) == shorten("/") then
+		local list = rootfs.list("/")
+		local newList = {}
+		for k, v in pairs(list) do
+			if not starts(shorten(v), shorten("/.nucleusbios/")) then
+				newList[#newList + 1] = v
+			end
+		end
+		return newList
+	else
+		return rootfs.list(validread(path))
+	end
 end
 
 fs.exists = function(path)
