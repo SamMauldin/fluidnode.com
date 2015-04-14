@@ -29,9 +29,6 @@ end
 local function valid(path, mode)
 	local allowed=true
 	local xpath=shorten(path)
-	if starts(xpath, shorten("/.nucleusbios/")) then
-        allowed = false
-    end
 
 	if allowed then
 		if mode then
