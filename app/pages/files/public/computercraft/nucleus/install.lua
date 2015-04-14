@@ -5,6 +5,7 @@ local files = {
     "main.lua",
     "verify.lua",
     "protect.lua",
+    "security",
     "adminpanel.lua"
 }
 
