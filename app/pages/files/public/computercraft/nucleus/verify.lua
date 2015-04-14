@@ -9,6 +9,7 @@ local fileList = {
     "main.lua",
     "version",
     "protect.lua",
+    "security",
     "adminpanel.lua"
 }
 
