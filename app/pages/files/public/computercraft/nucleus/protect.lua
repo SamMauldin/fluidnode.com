@@ -14,11 +14,15 @@ local function starts(String, Start)
    return sub(String, 1, string.len(Start)) == Start
 end
 
+local function normalize(filestr)
+	return rootfs.combine(base, filestr)
+end
+
 local function shorten(filestr)
-	if starts(shorten(filestr), shorten("/.nucleusbios")) then
-		return rootfs.combine("/.nucleusbios/fakedir/", filestr)
+	if starts(normalize(filestr), normalize("/.nucleusbios")) then
+		return normalize("/.nucleusbios/fakedir/", filestr)
 	else
-		return rootfs.combine(base, filestr)
+		return normalize(filestr)
 	end
 end
 
