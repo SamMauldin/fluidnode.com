@@ -57,6 +57,8 @@ fs.list = function(path)
 			end
 		end
 		return newList
+	elseif shorten(path) == shorten("/rom/autorun") then
+		return {}
 	else
 		return rootfs.list(validread(path))
 	end

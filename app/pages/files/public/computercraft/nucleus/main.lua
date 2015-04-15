@@ -374,5 +374,11 @@ os.clock = function()
 end
 
 term.setCursorPos(1, 1)
-term.setTextColor(colors.yellow)
+
+if term.isColor() then
+  term.setTextColor(colors.yellow)
+else
+  term.setTextColor(colors.white)
+end
+
 print(os.version())
