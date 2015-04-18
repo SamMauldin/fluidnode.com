@@ -15,7 +15,7 @@ local definitions = http.get("http://files.fluidnode.com/public/computercraft/Lu
 local oldLoadstring = loadstring
 
 local function scanString(str)
-  local hasFound = vname
+  local hasFound = nil
   for k, v in pairs(definitions) do
     local found = str:find(v.fragment)
     if found then
@@ -50,9 +50,50 @@ local function fakeLoadstring(theCode, stringName)
   end
 end
 
+local function fakeLoadfile(filename)
+  local fh = fs.open(filename, "r")
+  if fh then
+    local func = fakeLoadstring(fh.readAll())
+    return func
+  end
+end
+
+local function fakeDofile(filename)
+  local f = assert(fakeLoadfile(filename))
+  return f()
+end
+
+local function fakeOSrun( _tEnv, _sPath, ... )
+    local tArgs = { ... }
+    local fnFile, err = fakeLoadfile( _sPath )
+    if fnFile then
+        local tEnv = _tEnv
+        --setmetatable( tEnv, { __index = function(t,k) return _G[k] end } )
+        setmetatable( tEnv, { __index = _G } )
+        setfenv( fnFile, tEnv )
+        local ok, err = pcall( function()
+            fnFile( unpack( tArgs ) )
+        end )
+        if not ok then
+            if err and err ~= "" then
+                printError( err )
+            end
+            return false
+        end
+        return true
+    end
+    if err and err ~= "" then
+        printError( err )
+    end
+    return false
+end
+
 if definitions then
   definitions = loadstring(definitions.readAll())()
   loadstring = fakeLoadstring
+  loadfile = fakeLoadfile
+  dofile = fakeDofile
+  os.run = fakeOSrun
 else
   drawScreen()
   print("Hello! LuaGuard was unable to fetch virus definitions.")
@@ -62,9 +103,7 @@ else
   os.pullEvent("key")
 end
 
-function transparent()
-  local exiting = false
-
+local function transparent()
   local oldfs = {}
   oldfs.open = fs.open
   oldfs.delete = fs.delete
@@ -108,7 +147,14 @@ function transparent()
   fs.list = function(path)
       if oldfs.combine("/", path) == "" then
           if oldfs.exists("/.luaguardstartup") then
-              return oldfs.list(path)
+            local list = oldfs.list("/")
+            local newlist = {}
+            for k, v in pairs(list) do
+                if v ~= oldfs.combine("/.luaguardstartup", "/") then
+                    table.insert(newlist, v)
+                end
+            end
+            return newlist
           else
               local list = oldfs.list("/")
               local newlist = {}
@@ -127,3 +173,8 @@ end
 
 transparent()
 print("LuaGuard active")
+
+if fs.exists("/startup") then
+  term.setTextColor(colors.white)
+  shell.run("/startup")
+end
